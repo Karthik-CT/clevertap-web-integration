@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SDK Integration Test</title>
+    <script type="text/javascript">
+      var clevertap = {
+        event: [],
+        profile: [],
+        account: [],
+        onUserLogin: [],
+        notifications: [],
+        privacy: [],
+      };
+      // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
+      clevertap.account.push({ id: "65R-654-5Z6Z" });
+      clevertap.privacy.push({ optOut: false }); //set the flag to true, if the user of the device opts out of sharing their data
+      clevertap.privacy.push({ useIP: false }); //set the flag to true, if the user agrees to share their IP data
+      (function () {
+        var wzrk = document.createElement("script");
+        wzrk.type = "text/javascript";
+        wzrk.async = true;
+        wzrk.src =
+          ("https:" == document.location.protocol
+            ? "https://d2r1yp2w7bby2u.cloudfront.net"
+            : "http://static.clevertap.com") + "/js/a.js";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(wzrk, s);
+      })();
+
+      clevertap.notificationCallback = function (msg) {
+        clevertap.raiseNotificationViewed();
+        console.log(JSON.stringify(msg));
+        clevertap.raiseNotificationClicked();
+      };
+    </script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-analytics.js";
+      import {} from "https://www.gstatic.com/firebasejs/9.6.5/firebase-messaging.js";
+      const firebaseConfig = {
+        apiKey: "AIzaSyArhCWNBdEiXR_r9iVdPZ9kegtO1NQMecs",
+        authDomain: "integrationsdk-test.firebaseapp.com",
+        projectId: "integrationsdk-test",
+        storageBucket: "integrationsdk-test.appspot.com",
+        messagingSenderId: "487275975172",
+        appId: "1:487275975172:web:f5f011d0bf81884daf9b51",
+        measurementId: "G-Q8KZC85TXF",
+      };
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      console.log(app.options);
+    </script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+  <body>
+    <h1>Web SDK Integration Test!</h1>
+
+    <!-- onUserLogin -->
+    <!-- <script src="scripts.js"></script> -->
+
+    <!-- event -->
+    <button id="event" onclick="pushEvent()">Push Event</button>
+    <div class="snackbar" id="sb1">Push Event Clicked!</div>
+    <script>
+      let pushEvent = () => {
+        clevertap.event.push("ProductViewed");
+        //snackbar
+        var x = document.getElementById("sb1");
+        x.classList.add("show");
+        setTimeout(function () {
+          x.className = x.className.replace("show", "");
+        }, 3000);
+      };
+    </script>
+
+    <!-- key/value events -->
+    <br /><br />
+    <button id="events" onclick="events()">Key/Value Push Event</button>
+    <div class="snackbar" id="sb2">Key/Value Push Event Clicked!</div>
+    <script>
+      let events = () => {
+        clevertap.event.push("Product Viewed", {
+          "Product name": "Casio Chronograph Watch",
+          Category: "Mens Accessories",
+          Price: 59.99,
+        });
+        //snackbar
+        var x = document.getElementById("sb2");
+        x.classList.add("show");
+        setTimeout(function () {
+          x.className = x.className.replace("show1", "");
+        }, 3000);
+      };
+    </script>
+
+    <!-- profile push  -->
+    <br /><br />
+    <button id="profilepush" onclick="profilePush()">Profile Push</button>
+    <div class="snackbar" id="sb3">Profile Push Clicked!</div>
+    <script>
+      let profilePush = () => {
+        clevertap.profile.push({
+          Site: {
+            Name: "Snow John",
+            Identity: 68877102,
+            Email: "snow@gmail.com",
+            Phone: "+91155551234",
+            Gender: "M",
+            "Customer Type": "Gold",
+            "MSG-email": true,
+            "MSG-push": true,
+            "MSG-sms": true,
+            "MSG-whatsapp": true,
+            Photo:
+              "https://i.pinimg.com/originals/a1/49/ca/a149ca308184a8984666979a6b1c4cb7.jpg",
+          },
+        });
+
+        //snackbar
+        var x = document.getElementById("sb3");
+        x.classList.add("show");
+        setTimeout(function () {
+          x.className = x.className.replace("show", "");
+        }, 3000);
+      };
+    </script>
+
+    <!-- send notification event -->
+    <br /><br />
+    <button id="event" onclick="webNotiEvent()">Send Notification</button>
+    <div class="snackbar" id="sb4">Send Notification Button Clicked!</div>
+    <script>
+      let webNotiEvent = () => {
+        clevertap.event.push("Karthik's web noti event");
+        //snackbar
+        var x = document.getElementById("sb4");
+        x.classList.add("show");
+        setTimeout(function () {
+          x.className = x.className.replace("show", "");
+        }, 3000);
+      };
+    </script>
+
+    <!-- send popup -->
+    <br /><br />
+    <button id="event" onclick="webPopupEvent()">Send Popup</button>
+    <div class="snackbar" id="sb5">Send Pop up Button Clicked!</div>
+    <script>
+      let webPopupEvent = () => {
+        clevertap.event.push("Karthik's web popup event");
+        //snackbar
+        var x = document.getElementById("sb5");
+        x.classList.add("show");
+        setTimeout(function () {
+          x.className = x.className.replace("show", "");
+        }, 3000);
+      };
+    </script>
+
+    <!-- Notification Push javascript file -->
+    <script src="/notificationPush.js"></script>
+  </body>
+</html>
