@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@segment/snippet": "^4.15.3"
+  }
+}
