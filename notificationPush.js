@@ -5,7 +5,7 @@ clevertap.notifications.push({
   okButtonText: "OK",
   rejectButtonText: "Cancel",
   okButtonColor: "#f28046",
-  serviceWorkerPath: "/service-worker.js",
+  serviceWorkerPath: "/clevertap-web-integration/service-worker.js",
   okCallback: function () {
     console.log("For Soft OK Popup");
     Notification.requestPermission().then(function (getperm) {
