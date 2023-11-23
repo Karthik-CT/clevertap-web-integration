@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Google Tag Manager -->
+    <!-- <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-MQ89K3M");
+    </script> -->
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test 2</title>
+    <!-- <script type="text/javascript">
+      var clevertap = {
+        event: [],
+        profile: [],
+        account: [],
+        onUserLogin: [],
+        notifications: [],
+        privacy: [],
+      };
+      // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
+      // clevertap.account.push({ id: "75R-48K-RK6Z" });
+      clevertap.account.push({ id: "W8W-6WR-846Z" });
+      // clevertap.account.push({ id: "656-68W-R56Z" });
+      clevertap.privacy.push({ optOut: false }); //set the flag to true, if the user of the device opts out of sharing their data
+      clevertap.privacy.push({ useIP: false }); //set the flag to true, if the user agrees to share their IP data
+      (function () {
+        var wzrk = document.createElement("script");
+        wzrk.type = "text/javascript";
+        wzrk.async = true;
+        wzrk.src =
+          ("https:" == document.location.protocol
+            ? "https://d2r1yp2w7bby2u.cloudfront.net"
+            : "http://static.clevertap.com") + "/js/clevertap.min.js";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(wzrk, s);
+      })();
+    </script> -->
+    <script type="text/javascript">
+      var clevertap = {
+        event: [],
+        profile: [],
+        account: [],
+        onUserLogin: [],
+        notifications: [],
+        privacy: [],
+      };
+      // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
+      clevertap.account.push({ id: "W8W-6WR-846Z" });
+      clevertap.privacy.push({ optOut: false }); //set the flag to true, if the user of the device opts out of sharing their data
+      clevertap.privacy.push({ useIP: false }); //set the flag to true, if the user agrees to share their IP data
+      (function () {
+        var wzrk = document.createElement("script");
+        wzrk.type = "text/javascript";
+        wzrk.async = true;
+        wzrk.src = "https://d2r1yp2w7bby2u.cloudfront.net/js/clevertap.min.js";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(wzrk, s);
+      })();
+    </script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-analytics.js";
+      import {} from "https://www.gstatic.com/firebasejs/9.6.5/firebase-messaging.js";
+      const firebaseConfig = {
+        apiKey: "AIzaSyArhCWNBdEiXR_r9iVdPZ9kegtO1NQMecs",
+        authDomain: "integrationsdk-test.firebaseapp.com",
+        projectId: "integrationsdk-test",
+        storageBucket: "integrationsdk-test.appspot.com",
+        messagingSenderId: "487275975172",
+        appId: "1:487275975172:web:f5f011d0bf81884daf9b51",
+        measurementId: "G-Q8KZC85TXF",
+      };
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      console.log(app.options);
+    </script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <script>
+      function closePopUp() {
+        var overlay = window.parent.document.getElementById("intentOpacityDiv");
+        var wrapper = window.parent.document.getElementById("intentPreview");
+        overlay.remove();
+        wrapper.remove();
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Welcome to Test 2 Page.</h1>
+    <nav>
+      <ul>
+        <li><a href="#cttest">This is crawling technique of TEST 2</a></li>
+      </ul>
+    </nav>
+  </body>
+</html>
