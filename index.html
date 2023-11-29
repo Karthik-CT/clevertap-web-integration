@@ -158,6 +158,7 @@
         plan: "Enterprise",
       });
     </script> -->
+
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -215,13 +216,20 @@
 
       function renderCartDropOffPersonalisationCampaign(data) {
         const mytopic = data.kv.topic;
-        const url1 = data.kv.url1;
-        const url2 = data.kv.url2;
-        const url3 = data.kv.url3;
+        const url1 = data.kv.Item1_Img;
+        const url2 = data.kv.item2_Img;
+        const url3 = data.kv.item3_Img;
         console.log("Inside renderCartDropOffPersonalisationCampaign: ", event);
         console.log("url1: ", url1);
         console.log("url2: ", url2);
         console.log("url3: ", url3);
+
+        const cart_items_string = data.kv.cart_items_string;
+        var str_array = cart_items_string.split(',');
+        console.log("cart_items_string:", cart_items_string);
+        for(var i=0; i<str_array.length; i++){
+          console.log("cart_items_string_splited_"+(i+1)+":", str_array[i]);
+        }
 
         const carouselinner = document.getElementById("carousel-inner");
         document.getElementById("item1").src = url1;
@@ -235,10 +243,12 @@
     </script>
 
     <!-- Retreiving user property from the profile -->
-    <!-- <script>
-      let user_prop = clevertap.profile.getAttribute("CustomerWeb");
+    <script>
+      let user_prop = clevertap.profile.getAttribute("addToCartItems");
+      let user_prop2 = clevertap.profile.getAttribute("get-attr_test");
       console.log("User Property: " + user_prop);
-    </script> -->
+      console.log("get-attr_test_User Property2: " + user_prop2);
+    </script>
 
     <!-- onUserLogin -->
     <script src="scripts.js"></script>
