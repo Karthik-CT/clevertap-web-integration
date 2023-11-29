@@ -86,6 +86,7 @@
       const analytics = getAnalytics(app);
       console.log(app.options);
     </script>
+
     <link rel="stylesheet" href="style.css" />
     <link rel="manifest" href="/manifest.json" />
 
@@ -100,5 +101,65 @@
   </head>
   <body>
     <h1>Welcome to Test Page.</h1>
+    <!-- Web Native Display  -->
+    <div id="slider">
+      <div class="slides">
+        <img
+          id="item1"
+          src="https://i.pinimg.com/originals/2b/de/de/2bdede0647e3cdf75b44ea33723201d9.jpg"
+          width="100%"
+        />
+      </div>
+
+      <div class="slides">
+        <img
+          id="item2"
+          src="https://images6.alphacoders.com/462/thumb-1920-462371.jpg"
+          width="100%"
+        />
+      </div>
+
+      <div class="slides">
+        <img
+          id="item3"
+          src="https://wallpaperaccess.com/full/1154341.jpg"
+          width="100%"
+        />
+      </div>
+
+      <div id="dot">
+        <span class="dot"></span>
+        <span class="dot"></span><span class="dot"></span>
+      </div>
+    </div>
+<!-- 
+    <script>
+      document.addEventListener("CT_web_native_display", function (event) {
+        console.log("Inside ND listener: ", event);
+        const data = event.detail;
+        renderCartDropOffPersonalisationCampaign(data);
+      });
+
+      function renderCartDropOffPersonalisationCampaign(data) {
+        const mytopic = data.kv.topic;
+        const url1 = data.kv.Item1_Img;
+        const url2 = data.kv.item2_Img;
+        const url3 = data.kv.item3_Img;
+        console.log("Inside renderCartDropOffPersonalisationCampaign: ", event);
+        console.log("url1: ", url1);
+        console.log("url2: ", url2);
+        console.log("url3: ", url3);
+
+        const carouselinner = document.getElementById("carousel-inner");
+        document.getElementById("item1").src = url1;
+        document.getElementById("item2").src = url2;
+        document.getElementById("item3").src = url3;
+        clevertap.renderNotificationViewed(data);
+        carouselinner.addEventListener("click", () => {
+          clevertap.renderNotificationClicked(data);
+        });
+      } 
+    </script>-->
+
   </body>
 </html>
