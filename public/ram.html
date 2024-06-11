@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Page Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style type="text/css">
+      /* Just to play with animations */
+      .copiedtext {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(-1em);
+        color: #000;
+        transition: all 0.5s;
+      }
+      .container {
+        width: 100;
+        height: auto;
+        background: #f0fff3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .coupon-card {
+        background: linear-gradient(135deg, #7158fe, #9d4de6);
+        color: #fff;
+        text-align: center;
+        padding: 40px 80px;
+        border-radius: 15px;
+        box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0);
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px;
+      }
+      .coupon-row {
+        display: flex;
+        align-items: center;
+        margin: 25px auto;
+        width: fit-content;
+      }
+      .copied .copiedtext {
+        opacity: 1;
+        transform: translateY(-4em);
+      }
+      /* Some Generic styles */
+      body {
+        text-align: center;
+        font-family: "Open Sans", Helvetica, Arial, sans-serif;
+        color: #444;
+        line-height: 1.6;
+      }
+      h1 {
+        margin: 1.75em auto 1.25em;
+      }
+      button {
+        font-size: 1em;
+        font-family: "Open Sans", Helvetica, Arial, sans-serif;
+      }
+      img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100px;
+        height: 100px;
+      }
+      [id="cleared"] {
+        margin-top: 4em;
+      }
+      #cpnCode {
+        border: 1px dashed #f0fff3;
+        padding: 5px 5px;
+        border-right: 0;
+      }
+      #cpnBtn {
+        border: 1px solid #f0fff3;
+        padding: 10px 20px;
+        color: #7158fe;
+        background: #fff;
+      }
+      button {
+        position: relative;
+        padding: 8px 10px;
+        border: 2px dotted black;
+        font-size: 0.835em;
+        text-transform: uppercase;
+        letter-spacing: 0.125em;
+        font-weight: bold;
+        color: #000;
+        background: #fff;
+        transition: background 0.275s;
+      }
+      button:hover,
+      button:focus {
+        background: #ea2237;
+        color: #fff;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="coupon-card">
+        <div id="maincontent"></div>
+        <img
+          id="pimg"
+          name="test"
+          src="https://d1qzvqecfo5h8o.cloudfront.net/images/RKR-KWZ-K86Z/offer-1.gif"
+        />
+        <p>Take 50% off by using this below code</p>
+        <div class="coupon-row">
+          <span id="cpnCode">STEALDEAL Latest</span>
+          <span id="cpnBtn"> COPY CODE </span>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" charset="utf-8">
+      var copybtn = document.getElementById("cpnBtn");
+      var copyCode = document.getElementById("cpnCode");
+      copybtn.onclick = function () {
+        // navigator.clipboard.writeText(copyCode.innerHTML);
+        // alert(copyCode.innerHTML);
+        const el = document.createElement("textarea");
+        const textToCopy = copyCode.innerText;
+        el.value = textToCopy;
+        console.log(el);
+        el.setAttribute("readonly", "");
+        el.style.position = "absolute";
+        el.style.left = "-9999px";
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+      };
+    </script>
+  </body>
+</html>
+
+<!--<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>COPON CODE</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style type="text/css">
+      .container {
+        border-radius: 15px;
+        position: block;
+        width: auto;
+        height: auto;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        margin: auto;
+        user-select: none;
+        /*background-color: rgb(253, 241, 241);*/
+        background-color: #232f3d;
+        border: 2px solid rgb(184, 4, 4);
+      }
+      body {
+        display: absolute;
+        background-color: transparent;
+        margin: auto;
+        position: relative;
+      }
+      img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100px;
+        height: 100px;
+      }
+      h3,
+      h2,
+      h1 {
+        text-align: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align: center;
+        color: #ff4d4d;
+        font-family: Georgia, "Times New Roman", Times, serif;
+      }
+      .couponcode {
+        text-align: center;
+        color: yellow;
+        margin: auto;
+        font-size: 25px;
+        border-radius: 25px;
+        background: #e47e00;
+        height: 30px;
+        width: 150px;
+      }
+      @media screen and (max-width: 350px) {
+        h2 {
+          font-size: 20px;
+        }
+        h4 {
+          font-size: 16px;
+        }
+        .couponcode {
+          font-size: 20px;
+          justify-content: center;
+          height: 20px;
+          padding-bottom: 10px;
+          width: 125px;
+        }
+        img {
+          border-radius: 15px;
+          height: 110px;
+          width: 120px;
+        }
+      }
+    </style>
+  </head>
+  <body onload="">
+    <div class="container" id="js-container">
+      <br />
+      <img
+        id="pimg"
+        name="test"
+        src="https://d1qzvqecfo5h8o.cloudfront.net/images/RKR-KWZ-K86Z/offer-1.gif"
+      />
+      <h3
+        style="
+          font-family: Arial, 'sans-serif', Gotham, 'Helvetica Neue', Helvetica;
+          color: #fff;
+          line-height: 30px;
+          font-size: 18px;
+        "
+        id="label"
+      >
+        :tada:<span style="font-size: 30px">Get ₹1000 Off</span> :gift:<br />
+        With This Exclusive Coupon Now!
+      </h3>
+      <h1
+        style="
+          font-family: Gotham, 'Helvetica Neue', Helvetica, Arial, 'sans-serif';
+          font-weight: bold;
+          color: #fef140;
+        "
+      >
+        <strong><b>RAM2208 </b></strong>
+      </h1>
+      <div style="text-align: center; margin-top: 10px">
+        //<button onClick='closebtn()' style="border: 1px solid white; width: 100px; height: 40px; text-align: center; margin-right: 5px; border-radius: 20px; background-color: #FF4D4D; color: white; font-size: 16px;"><b>SKIP</b></button>
+        <button
+          onClick="copyclip()"
+          style="
+            border: 1px solid white;
+            width: 150px;
+            height: 40px;
+            text-align: center;
+            border-radius: 20px;
+            background-color: #e9622d;
+            color: white;
+            font-size: 16px;
+          "
+        >
+          <b>COPY</b>
+        </button>
+      </div>
+      <br />
+    </div>
+    <script type="text/javascript" charset="utf-8">
+      function copyclip() {
+        const el = document.createElement("textarea");
+        const textToCopy = "ABCDEF";
+        el.value = textToCopy;
+        console.log(el);
+        el.setAttribute("readonly", "");
+        el.style.position = "absolute";
+        el.style.left = "-9999px";
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+      }
+    </script>
+  </body>
+</html>-->

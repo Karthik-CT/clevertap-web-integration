@@ -1,0 +1,134 @@
+{% if Linked.AlTayer_Shopper.statusCode != 404 and
+Linked.AlTayer_Shopper.body.size > 2 %}
+<table
+  cellpadding="0"
+  cellspacing="0"
+  class="stylingblock-content-wrapper"
+  style="min-width: 100%"
+  width="100%"
+>
+  <tbody>
+    <tr>
+      <td class="stylingblock-content-wrapper camarker-inner">
+        <table
+          align="center"
+          bgcolor="#ffffff"
+          border="0"
+          cellpadding="4"
+          cellspacing="0"
+          style="width: 100%; margin-bottom: 13px"
+          width="660"
+        >
+          <tbody>
+            <tr>
+              <td align="center">
+                <table
+                  align="center"
+                  bgcolor="#ffffff"
+                  border="0"
+                  cellpadding="0"
+                  cellspacing="0"
+                  style="width: 100%"
+                  width="652"
+                >
+                  <tbody>
+                    <tr>
+                      <td align="center" class="full-mobile" valign="top">
+                        <table
+                          align="center"
+                          border="0"
+                          cellpadding="6"
+                          cellspacing="0"
+                          style="width: 100%"
+                          width="326"
+                        >
+                          <tbody>
+                            <tr>
+                              {% assign max_products = 12 %} {% assign counter =
+                              0 %} {% for reco in Linked.AlTayer_Shopper.body
+                              limit: max_products %}
+                              <td
+                                align="center"
+                                valign="top"
+                                style="width: 33.33%; padding: 10px"
+                              >
+                                <img
+                                  src="{{ reco.thumbnail }}"
+                                  alt="{{ reco.name_english }}"
+                                  style="
+                                    width: 100%;
+                                    max-width: 151px;
+                                    height: auto;
+                                  "
+                                />
+                                <div
+                                  style="
+                                    font-family: Arial, sans-serif;
+                                    font-size: 14px;
+                                    color: black;
+                                    text-align: center;
+                                  "
+                                >
+                                  <a
+                                    href="{{ reco.product_link }}"
+                                    style="text-decoration: none; color: black"
+                                  >
+                                    <span style="font-weight: bold"
+                                      >{{ reco.name_english }}</span
+                                    >
+                                  </a>
+                                  <br />
+                                  {{ reco.designer_english }} <br />
+                                  <a
+                                    href="{{ reco.product_link }}"
+                                    style="color: #0056b3"
+                                    >Link to PDP</a
+                                  >
+                                </div>
+                              </td>
+                              {% assign counter = counter | plus: 1 %} {% endfor
+                              %}
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div style="text-align: center; margin-top: 30px; margin-bottom: 30px">
+  <img src="{{ Linked.AlTayer_Shopper.body[0].ps_image_english | default:
+  "image"}}" alt="Personal Shopper" style="width: 120px; height: auto;
+  border-radius: 50%;" />
+  <div
+    style="font-family: Arial, sans-serif; font-size: 16px; margin-top: 10px"
+  >
+    Your Personal Shopper:
+    <strong
+      >{{ Linked.AlTayer_Shopper.body[0].current_personal_shopper_name |
+      default: "image" }}</strong
+    >
+  </div>
+</div>
+{% else %}
+<p
+  style="
+    font-size: 18px;
+    font-weight: 200;
+    margin-bottom: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    text-align: center;
+  "
+>
+  We are sorry, there are no recommendations available at this time.
+</p>
+{% endif %}

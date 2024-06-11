@@ -39,7 +39,9 @@
       };
       // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
       clevertap.account.push({ id: "W8W-6WR-846Z" });
-      clevertap.enablePersonalization = true; //Enables Personalization
+      // clevertap.account.push({ id: "4W5-Z45-KZ6Z" });
+      // clevertap.account.push({ id: "4W9-K46-566Z" });
+      clevertap.enablePersonalization = false; //Enables Personalization
       clevertap.privacy.push({ optOut: false }); //set the flag to true, if the user of the device opts out of sharing their data
       clevertap.privacy.push({ useIP: false }); //set the flag to true, if the user agrees to share their IP data
       (function () {
@@ -53,6 +55,7 @@
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(wzrk, s);
       })();
+      clevertap.dismissSpamControl = true;
     </script>
 
     <script type="module">
@@ -158,9 +161,15 @@
         plan: "Enterprise",
       });
     </script> -->
-
   </head>
   <body>
+    <script>
+      clevertap.notificationCallback = function (msg) {
+        console.log("Entered Callback+================================+");
+        console.log(JSON.stringify(msg)); //your custom rendering implementation here
+      };
+    </script>
+
     <!-- Google Tag Manager (noscript) -->
     <!-- <noscript>
       <iframe
@@ -211,7 +220,7 @@
       document.addEventListener("CT_web_native_display", function (event) {
         console.log("Inside ND listener: ", event);
         const data = event.detail;
-        renderCartDropOffPersonalisationCampaign(data);
+        // renderCartDropOffPersonalisationCampaign(data);
       });
 
       function renderCartDropOffPersonalisationCampaign(data) {
@@ -225,10 +234,13 @@
         console.log("url3: ", url3);
 
         const cart_items_string = data.kv.cart_items_string;
-        var str_array = cart_items_string.split(',');
+        var str_array = cart_items_string.split(",");
         console.log("cart_items_string:", cart_items_string);
-        for(var i=0; i<str_array.length; i++){
-          console.log("cart_items_string_splited_"+(i+1)+":", str_array[i]);
+        for (var i = 0; i < str_array.length; i++) {
+          console.log(
+            "cart_items_string_splited_" + (i + 1) + ":",
+            str_array[i]
+          );
         }
 
         const carouselinner = document.getElementById("carousel-inner");
@@ -244,6 +256,7 @@
 
     <!-- Retreiving user property from the profile -->
     <script>
+      console.log("This is test");
       let user_prop = clevertap.profile.getAttribute("addToCartItems");
       let user_prop2 = clevertap.profile.getAttribute("get-attr_test");
       console.log("User Property: " + user_prop);
@@ -405,7 +418,7 @@
     </script>
 
     <!-- Notification Push javascript file -->
-<!--     <script data-main="config/config" src="/notificationPush.js"></script> -->
+    <!--     <script data-main="config/config" src="/notificationPush.js"></script> -->
     <script src="notificationPush.js"></script>
 
     <!-- Hard Popup Button -->
@@ -546,3 +559,12 @@
     </script>
   </body>
 </html>
+<!-- 1) To work on CleverTap's own SDK product Integration with various technologies like(Android, Flutter,
+React Native, Web, etc.)
+2) Working Integrating the Android SDK using kotlin and working on it to and out the bug or issues if any
+to raise it to the SDK team.
+3) Working along with Product team on the new features which needs to be launched on CleverTap.
+4) Worked on Android Push Templates features of CleverTap to enhance it in looks as well as on the add
+on features in it which is one of the important feature.
+5) Implementing the Identity Management on the Project so that the events are flown into CleverTap
+seamlessly of their technology. -->

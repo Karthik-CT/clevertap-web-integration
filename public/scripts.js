@@ -11,7 +11,7 @@ function loginUser() {
       "MSG-whatsapp": true,
     },
   });
-  clevertap.event.push("Web Login Successful");
+  // clevertap.event.push("Web Login Successful");
   //snackbar
   var x = document.getElementById("sb6");
   x.classList.add("show");
