@@ -158,7 +158,6 @@
         plan: "Enterprise",
       });
     </script> -->
-
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -225,10 +224,13 @@
         console.log("url3: ", url3);
 
         const cart_items_string = data.kv.cart_items_string;
-        var str_array = cart_items_string.split(',');
+        var str_array = cart_items_string.split(",");
         console.log("cart_items_string:", cart_items_string);
-        for(var i=0; i<str_array.length; i++){
-          console.log("cart_items_string_splited_"+(i+1)+":", str_array[i]);
+        for (var i = 0; i < str_array.length; i++) {
+          console.log(
+            "cart_items_string_splited_" + (i + 1) + ":",
+            str_array[i]
+          );
         }
 
         const carouselinner = document.getElementById("carousel-inner");
@@ -515,7 +517,7 @@
     </script>
 
     <br /><br />
-    <button id="event" onclick="unsubPush()">Unsubscribe Push</button>
+    <button id="event" onclick="unsubPush()">Unsubscribe Push</button> <br />
     <script>
       let unsubPush = () => {
         clevertap.profile.push({
