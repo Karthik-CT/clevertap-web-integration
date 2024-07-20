@@ -1,0 +1,25 @@
+<!-- optout.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Opt-Out</title>
+  </head>
+  <body>
+    <h1>Opt-Out of SMS Notifications</h1>
+    <form action="/optout" method="post" id="optOutForm">
+      <input type="hidden" name="user_id" id="user_id" value="" />
+      <button type="submit">Confirm Opt-Out</button>
+    </form>
+
+    <script>
+      // Get the user_id from the URL query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get("user_id");
+
+      // Set the value of the hidden input field
+      document.getElementById("user_id").value = userId;
+    </script>
+  </body>
+</html>
