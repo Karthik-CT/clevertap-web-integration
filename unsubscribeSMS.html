@@ -1,25 +1,79 @@
-<!-- optout.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Opt-Out</title>
+    <script type="text/javascript">
+      var clevertap = {
+        event: [],
+        profile: [],
+        account: [],
+        onUserLogin: [],
+        notifications: [],
+        privacy: [],
+      };
+      // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
+      clevertap.account.push({ id: "W8W-6WR-846Z" });
+      // clevertap.account.push({ id: "4W5-Z45-KZ6Z" });
+      // clevertap.account.push({ id: "4W9-K46-566Z" });
+      clevertap.enablePersonalization = false; //Enables Personalization
+      clevertap.privacy.push({ optOut: false }); //set the flag to true, if the user of the device opts out of sharing their data
+      clevertap.privacy.push({ useIP: false }); //set the flag to true, if the user agrees to share their IP data
+      (function () {
+        var wzrk = document.createElement("script");
+        wzrk.type = "text/javascript";
+        wzrk.async = true;
+        wzrk.src =
+          ("https:" == document.location.protocol
+            ? "https://d2r1yp2w7bby2u.cloudfront.net"
+            : "http://static.clevertap.com") + "/js/clevertap.min.js";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(wzrk, s);
+      })();
+    </script>
   </head>
   <body>
     <h1>Opt-Out of SMS Notifications</h1>
-    <form action="/optout" method="post" id="optOutForm">
-      <input type="hidden" name="user_id" id="user_id" value="" />
-      <button type="submit">Confirm Opt-Out</button>
-    </form>
+    <label for="user_id">User ID:</label>
+    <input type="text" name="user_id" id="user_id" value="" />
+    <br />
+    <label for="phone_number">Phone Number:</label>
+    <input type="text" name="phone_number" id="phone_number" value="" />
+    <br />
+    <button type="submit" onclick="optOutSMSCT()">Confirm Opt-Out</button>
 
     <script>
-      // Get the user_id from the URL query parameter
+      // Get the user_id and phone_number from the URL query parameters
       const urlParams = new URLSearchParams(window.location.search);
       const userId = urlParams.get("user_id");
+      const phoneNumber = urlParams.get("phone_number");
 
-      // Set the value of the hidden input field
+      // Set the value of the hidden input field for user_id
       document.getElementById("user_id").value = userId;
+
+      // Set the value of the text input field for phone_number
+      document.getElementById("phone_number").value = phoneNumber;
+
+      // Debugging: Log the user_id to the console
+      console.log("User ID:", userId);
+      console.log("Mobile Number:", phoneNumber);
+
+      optOutSMSCT = () => {
+        clevertap.onUserLogin.push({
+          Site: {
+            Identity: userId,
+            Phone: "+" + phoneNumber,
+          },
+        });
+
+        clevertap.profile.push({
+          Site: {
+            "MSG-sms": false,
+          },
+        });
+        console.log("Opted out successfully");
+      };
     </script>
   </body>
 </html>
