@@ -38,7 +38,8 @@
         privacy: [],
       };
       // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
-      clevertap.account.push({ id: "W8W-6WR-846Z" });
+      // clevertap.account.push({ id: "W8W-6WR-846Z" });
+      clevertap.account.push({ id: "886-85W-7Z7Z" });
       clevertap.enablePersonalization = true; //Enables Personalization
       clevertap.privacy.push({ optOut: false }); //set the flag to true, if the user of the device opts out of sharing their data
       clevertap.privacy.push({ useIP: false }); //set the flag to true, if the user agrees to share their IP data
@@ -280,6 +281,14 @@
     <script>
       let pushEvent = () => {
         clevertap.event.push(document.getElementById("eventName").value);
+
+        console.log(
+          "GetAllInboxMessages: " +
+            JSON.stringify(clevertap.getAllInboxMessages())
+        );
+        console.log(
+          "GetAllInboxMessagesCount: " + clevertap.getInboxMessageCount()
+        );
         //snackbar
         var x = document.getElementById("sb1");
         x.classList.add("show");
@@ -558,5 +567,22 @@
 
       changeSlide();
     </script>
+
+    <!-- Web Inbox -->
+    <span
+      id="inbox"
+      style="
+        position: absolute;
+        top: 30px;
+        right: 40px;
+        width: 100px;
+        text-align: right;
+      "
+    >
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/4407/4407079.png"
+        alt="Web Inbox"
+        style="width: 40px; height: 40px; vertical-align: middle"
+    /></span>
   </body>
 </html>
