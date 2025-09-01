@@ -175,6 +175,32 @@
 
     <h1>Web SDK Integration Test!</h1>
 
+    <script>
+      function requestLocationForCleverTap() {
+        if (!navigator.geolocation) {
+          console.warn("Geolocation is not supported by this browser.");
+          return;
+        }
+        navigator.permissions
+          .query({ name: "geolocation" })
+          .then(function (result) {
+            // if permission is granted
+            if (result.state === "granted") {
+              clevertap.getLocation();
+            }
+            // else if ask for permission
+            else if (result.state === "prompt") {
+              clevertap.getLocation();
+            }
+            // permission is not granted
+            else {
+              console.warn("Geolocation permission denied.");
+            }
+          });
+      }
+      requestLocationForCleverTap();
+    </script>
+
     <!-- Web Native Display  -->
     <div id="slider">
       <div class="slides">

@@ -2153,7 +2153,7 @@
       </table>
     </div>
 
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
       var isAndroid = /Android/i.test(navigator.userAgent);
       var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
@@ -2203,96 +2203,6 @@
         ).value;
         track_rating_event(selectedOption);
         document.getElementById("form_view").style.display = "none";
-
-        if (selectedOption > 3) {
-          document.getElementById("thank_you_view").style.display = "block";
-        } else {
-          document.getElementById("thank_you_reply_view").style.display =
-            "block";
-        }
-      }
-    </script> -->
-
-    <script type="text/javascript">
-      var isAndroid = /Android/i.test(navigator.userAgent);
-      var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-      const store = isAndroid
-        ? {
-            label: "Play Store",
-            url: "https://play.google.com/store/apps/details?id=com.wefaq.carsapp",
-          }
-        : {
-            label: "App Store",
-            url: "https://apps.apple.com/us/app/yelo-%D9%8A%D9%84%D9%88/id923853721",
-          };
-      const ratingLink = document.getElementById("rating-link");
-      ratingLink.href = store.url;
-      ratingLink.textContent = `by rating Yelo on ${store.label}`;
-
-      console.log("ratingLink", ratingLink);
-
-      function track_rating_event(rating, feedback) {
-        var eventName = "Rating Submitted";
-        var properties = {
-          "User Rating": rating,
-          "User Feedback": feedback || "No feedback provided", // Default if no feedback is provided
-        };
-
-        if (
-          isIOS &&
-          window.webkit &&
-          window.webkit.messageHandlers &&
-          window.webkit.messageHandlers.clevertap
-        ) {
-          window.webkit.messageHandlers.clevertap.postMessage({
-            action: "recordEventWithProps",
-            event: eventName,
-            properties: properties,
-          });
-          window.location.href = "wzrk://exit";
-          console.log("iOS event sent");
-        } else if (isAndroid && window.CleverTap) {
-          CleverTap.pushEvent(eventName, JSON.stringify(properties));
-          window.location.href = "wzrk://exit"; // Close the webview
-          console.log("Android event sent");
-        } else {
-          console.error("Unsupported OS or CleverTap object not found");
-        }
-      }
-
-      function submit_choice_done() {
-        var selectedOption = document.querySelector(
-          "input[type='radio'][name='rating_choice']:checked"
-        ).value;
-
-        // Check if the rating is between 1 and 3, and collect feedback
-        var feedback = "";
-        if (selectedOption <= 3) {
-          // Show feedback form to collect the user's feedback
-          document.getElementById("feedback_form_view").style.display = "block"; // Show feedback screen
-        } else {
-          // Proceed with the rating submission if the rating is above 3
-          track_rating_event(selectedOption, feedback);
-          document.getElementById("form_view").style.display = "none";
-
-          if (selectedOption > 3) {
-            document.getElementById("thank_you_view").style.display = "block";
-          } else {
-            document.getElementById("thank_you_reply_view").style.display =
-              "block";
-          }
-        }
-      }
-
-      function submit_feedback() {
-        var feedback = document.getElementById("customer_reply").value; // Get feedback from the textarea (id="customer_reply")
-        var selectedOption = document.querySelector(
-          "input[type='radio'][name='rating_choice']:checked"
-        ).value;
-
-        track_rating_event(selectedOption, feedback); // Send both rating and feedback to CleverTap
-        document.getElementById("feedback_form_view").style.display = "none"; // Hide feedback form
 
         if (selectedOption > 3) {
           document.getElementById("thank_you_view").style.display = "block";
