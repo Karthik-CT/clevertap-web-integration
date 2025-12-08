@@ -171,7 +171,9 @@
   <body>
     <script>
       clevertap.event.push("KFCNativeDisplay");
+      clevertap.event.push("KFCOfferNativeDisplay");
     </script>
+
     <!-- Google Tag Manager (noscript) -->
     <!-- <noscript>
       <iframe
@@ -246,7 +248,7 @@
 
     <script>
       document.addEventListener("CT_web_native_display", function (event) {
-        console.log("Inside ND listener: ", event);
+        // console.log("Inside ND listener: ", event);
         const data = event.detail;
         renderCartDropOffPersonalisationCampaign(data);
       });
@@ -256,13 +258,13 @@
         const url1 = data.kv.Item1_Img;
         const url2 = data.kv.item2_Img;
         const url3 = data.kv.item3_Img;
-        console.log("Inside renderCartDropOffPersonalisationCampaign: ", event);
-        console.log("url1: ", data.kv);
-        console.log("url2: ", url2);
-        console.log("url3: ", url3);
+        // console.log("Inside renderCartDropOffPersonalisationCampaign: ", event);
+        // console.log("url1: ", data.kv);
+        // console.log("url2: ", url2);
+        // console.log("url3: ", url3);
         const cart_items_string = data.kv.cart_items_string;
         var str_array = cart_items_string.split(",");
-        console.log("cart_items_string:", cart_items_string);
+        // console.log("cart_items_string:", cart_items_string);
         for (var i = 0; i < str_array.length; i++) {
           console.log(
             "cart_items_string_splited_" + (i + 1) + ":",
@@ -291,7 +293,8 @@
 
     <!-- onUserLogin -->
     <script src="scripts.js"></script>
-    
+
+    <!-- RFY tray starts -->
     <br />
     <br />
     <section
@@ -317,7 +320,12 @@
       document.addEventListener("CT_web_native_display", function (event) {
         console.log("Inside ND listener: ", event);
         const data = event.detail;
-        kfcRFY(data);
+        if (data.kv.topic == "Offers_Tray_Web_ND") {
+          console.log("Offers Tray value: ", data.kv);
+          renderOffersTray(data);
+        } else {
+          kfcRFY(data);
+        }
       });
 
       function kfcRFY(data) {
@@ -361,6 +369,70 @@
     </script>
     <br />
     <br />
+    <!-- RFY tray ends -->
+
+    <!-- offers tray starts -->
+    <section
+      class="top-deals"
+      style="
+        margin: 0;
+        padding: 40px 60px;
+        background: #f6f7f9;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+      "
+    >
+      <div class="header">
+        <div class="title">
+          Special Offers For You <span class="spark">🔥</span>
+        </div>
+        <a href="#" class="view-all">View All →</a>
+      </div>
+
+      <div class="cards-container" id="offersCardsContainer"></div>
+    </section>
+
+    <script>
+      function renderOffersTray(data) {
+        const offersItems = data.kv;
+        const container = document.getElementById("offersCardsContainer");
+
+        Object.keys(offersItems)
+          .filter((key) => key.startsWith("recommendation"))
+          .forEach((key) => {
+            const item = JSON.parse(offersItems[key]);
+
+            const card = document.createElement("div");
+            card.className = "card";
+
+            card.innerHTML = `
+          <div class="product-image">
+            <img src="${item.ImageURL}" alt="${item.title}">
+          </div>
+
+          <div class="card-body">
+            <div class="card-content">
+              <div class="title-row">
+                <div class="title-text">${item.title}</div>
+                <div class="heart">♡</div>
+              </div>
+
+              <div class="title-underline"></div>
+
+              <div class="desc-text">${item.desc}</div>
+            </div>
+
+            <div class="price">${item.price}</div>
+
+            <button class="add-to-cart">View Offer</button>
+          </div>
+        `;
+            container.appendChild(card);
+          });
+      }
+    </script>
+
+    <!-- offers tray ends -->
 
     <input id="name" type="text" name="username" placeholder="Name" />
     <br /><br />
