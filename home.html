@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CleverTap Web SDK — Home</title>
+    <script>
+      (function () {
+        var CT_ID_KEY = "ct_prefs.clevertap_id";
+        var ctId = localStorage.getItem(CT_ID_KEY);
+        if (!ctId) {
+          var raw = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11)
+            .replace(/[018]/g, function (c) {
+              return (
+                c ^
+                (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+              ).toString(16);
+            })
+            .replace(/-/g, "");
+          ctId = raw.slice(0, 20) + "-sp";
+          localStorage.setItem(CT_ID_KEY, ctId);
+        }
+        window.__CT_INIT_ID__ = ctId;
+      })();
+    </script>
+    <script type="text/javascript">
+      var clevertap = {
+        event: [],
+        profile: [],
+        account: [],
+        onUserLogin: [],
+        notifications: [],
+        privacy: [],
+        config: { customId: window.__CT_INIT_ID__ },
+      };
+      var CT_ACCOUNT_ID = "W8W-6WR-846Z";
+      clevertap.account.push({ id: CT_ACCOUNT_ID });
+      clevertap.privacy.push({ optOut: false });
+      clevertap.privacy.push({ useIP: false });
+      (function () {
+        var wzrk = document.createElement("script");
+        wzrk.type = "text/javascript";
+        wzrk.async = true;
+        wzrk.src =
+          ("https:" === document.location.protocol
+            ? "https://d2r1yp2w7bby2u.cloudfront.net"
+            : "http://static.clevertap.com") + "/js/clevertap.min.js";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(wzrk, s);
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #0a0a0f;
+        --surface: #111118;
+        --border: #1e1e2e;
+        --accent: #6c63ff;
+        --accent-2: #ff6584;
+        --text: #e8e8f0;
+        --muted: #666680;
+        --input-bg: #16161f;
+        --success: #43e97b;
+        --error: #ff6b6b;
+        --radius: 12px;
+        --font-head: "Syne", sans-serif;
+        --font-body: "DM Sans", sans-serif;
+      }
+      html,
+      body {
+        height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-weight: 300;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background:
+          radial-gradient(
+            ellipse 80% 60% at 20% 10%,
+            rgba(108, 99, 255, 0.12) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 60% 50% at 80% 90%,
+            rgba(255, 101, 132, 0.08) 0%,
+            transparent 60%
+          );
+      }
+      .page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        position: relative;
+        z-index: 1;
+      }
+      .card {
+        width: 100%;
+        max-width: 480px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 40px 36px 36px;
+        position: relative;
+        overflow: hidden;
+        animation: fadeUp 0.5s ease both;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 32px;
+      }
+      .logo-mark {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-head);
+        font-weight: 800;
+        font-size: 16px;
+        color: #fff;
+      }
+      .logo-text {
+        font-family: var(--font-head);
+        font-weight: 700;
+        font-size: 17px;
+      }
+      .logo-sub {
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .welcome {
+        background: var(--input-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+        margin-bottom: 24px;
+      }
+      .welcome h2 {
+        font-family: var(--font-head);
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .welcome p {
+        font-size: 13.5px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .session-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .session-item {
+        background: var(--input-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+      }
+      .s-label {
+        font-size: 10.5px;
+        color: var(--muted);
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+      .s-value {
+        font-size: 12.5px;
+        font-weight: 500;
+        color: var(--text);
+        word-break: break-all;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+        background: rgba(108, 99, 255, 0.18);
+        color: var(--accent);
+      }
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .btn {
+        padding: 12px 16px;
+        border: none;
+        border-radius: var(--radius);
+        font-family: var(--font-head);
+        font-size: 13.5px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn-outline {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text);
+      }
+      .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .btn-danger {
+        background: transparent;
+        border: 1px solid rgba(255, 107, 107, 0.3);
+        color: var(--error);
+      }
+      .btn-danger:hover {
+        background: rgba(255, 107, 107, 0.08);
+        border-color: var(--error);
+      }
+      .debug {
+        padding: 14px;
+        background: var(--input-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        font-size: 11.5px;
+        font-family: "Courier New", monospace;
+        color: var(--muted);
+        line-height: 1.9;
+      }
+      .debug strong {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .debug .lbl {
+        color: #666;
+      }
+      #toast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%) translateY(80px);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--success);
+        color: var(--text);
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-size: 13.5px;
+        font-weight: 500;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        transition:
+          transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+          opacity 0.3s;
+        opacity: 0;
+        z-index: 1000;
+      }
+      #toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="card">
+        <div class="logo">
+          <div class="logo-mark">CT</div>
+          <div>
+            <div class="logo-text">Integration SDK</div>
+            <div class="logo-sub">Home Dashboard</div>
+          </div>
+        </div>
+
+        <div class="welcome">
+          <h2>Welcome back 👋</h2>
+          <p>
+            Your CleverTap session is active. Events are tracked against your
+            profile.
+          </p>
+        </div>
+
+        <div class="session-grid">
+          <div class="session-item">
+            <div class="s-label">Local CT ID</div>
+            <div class="s-value" id="info-ctid">—</div>
+          </div>
+          <div class="session-item">
+            <div class="s-label">Dashboard Key</div>
+            <div class="s-value" id="info-dashboard">—</div>
+          </div>
+          <div class="session-item">
+            <div class="s-label">Identity Status</div>
+            <div class="s-value" id="info-identity">—</div>
+          </div>
+          <div class="session-item">
+            <div class="s-label">WZRK_G (CT SDK)</div>
+            <div class="s-value" id="info-wzrk">—</div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-outline" onclick="trackEvent()">
+            Track Custom Event
+          </button>
+          <!-- mirrors: binding.logoutbtn.setOnClickListener { logOutSession() } -->
+          <button class="btn btn-danger" onclick="logOutSession()">
+            Log Out
+          </button>
+        </div>
+
+        <div class="debug">
+          <span class="lbl">ct_prefs.clevertap_id:</span>
+          <strong id="dbg-ctid">—</strong><br />
+          <span class="lbl">ct_prefs.has_real_identity:</span>
+          <strong id="dbg-identity">—</strong><br />
+          <span class="lbl">WZRK_G:</span> <strong id="dbg-wzrk">—</strong>
+        </div>
+      </div>
+    </div>
+    <div id="toast"></div>
+
+    <script src="clevertap-id-manager.js"></script>
+    <script src="clevertap-manager.js"></script>
+    <script>
+      CleverTapManager.init();
+      updateUI();
+
+      CleverTapManager.pushEvent("Home Screen Viewed");
+
+      function trackEvent() {
+        CleverTapManager.pushEvent("Button Clicked", {
+          screen: "Home",
+          button: "Track Event",
+        });
+        showToast("Event tracked!");
+      }
+
+      function logOutSession() {
+        showToast("Logged out");
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 600);
+      }
+
+      function updateUI() {
+        const ctId = localStorage.getItem("ct_prefs.clevertap_id") || "—";
+        const hasId =
+          localStorage.getItem("ct_prefs.has_real_identity") || "false";
+        const wzrk =
+          localStorage.getItem("WZRK_G") || "(CT SDK async — check after load)";
+        document.getElementById("info-ctid").textContent = ctId;
+        document.getElementById("info-dashboard").textContent = "_w_" + ctId;
+        document.getElementById("info-identity").innerHTML =
+          '<span class="badge">' +
+          (hasId === "true" ? "Real" : "Anonymous") +
+          "</span>";
+        document.getElementById("info-wzrk").textContent = wzrk;
+        document.getElementById("dbg-ctid").textContent = ctId;
+        document.getElementById("dbg-identity").textContent = hasId;
+        document.getElementById("dbg-wzrk").textContent = wzrk;
+      }
+
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2500);
+      }
+    </script>
+  </body>
+</html>

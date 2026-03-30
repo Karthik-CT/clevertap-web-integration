@@ -1,32 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <!-- Google Tag Manager -->
-    <!-- <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dlk = l != "dataLayer" ? "&l=" + l : "";
-        j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-MQ89K3M");
-    </script> -->
-    <!-- End Google Tag Manager -->
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SDK Integration Test</title>
+    <title>CleverTap Web SDK — Login / Signup</title>
 
-    <!-- require.js wrapper -->
-    <!-- <script data-main="config/config" src="./scripts/require.js"></script>
     <script>
-      require(["config"], function () {
-        require(["jqueryFile", "clevertapFile"]);
-      });
-    </script> -->
+      (function () {
+        var CT_ID_KEY = "ct_prefs.clevertap_id";
+        var ctId = localStorage.getItem(CT_ID_KEY);
+        if (!ctId) {
+          // mirrors: CleverTapIdManager.generateId()
+          var raw = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11)
+            .replace(/[018]/g, function (c) {
+              return (
+                c ^
+                (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+              ).toString(16);
+            })
+            .replace(/-/g, "");
+          ctId = raw.slice(0, 20) + "-sp";
+          localStorage.setItem(CT_ID_KEY, ctId);
+        }
+
+        window.__CT_INIT_ID__ = ctId;
+      })();
+    </script>
 
     <script type="text/javascript">
       var clevertap = {
@@ -36,19 +35,21 @@
         onUserLogin: [],
         notifications: [],
         privacy: [],
+        config: { customId: window.__CT_INIT_ID__ },
       };
-      // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
-      clevertap.account.push({ id: "W8W-6WR-846Z" });
-      // clevertap.account.push({ id: "886-85W-7Z7Z" });
-      clevertap.enablePersonalization = true; //Enables Personalization
-      clevertap.privacy.push({ optOut: false }); //set the flag to true, if the user of the device opts out of sharing their data
-      clevertap.privacy.push({ useIP: false }); //set the flag to true, if the user agrees to share their IP data
+
+      var CT_ACCOUNT_ID = "W8W-6WR-846Z";
+
+      clevertap.account.push({ id: CT_ACCOUNT_ID });
+      clevertap.privacy.push({ optOut: false });
+      clevertap.privacy.push({ useIP: false });
+
       (function () {
         var wzrk = document.createElement("script");
         wzrk.type = "text/javascript";
         wzrk.async = true;
         wzrk.src =
-          ("https:" == document.location.protocol
+          ("https:" === document.location.protocol
             ? "https://d2r1yp2w7bby2u.cloudfront.net"
             : "http://static.clevertap.com") + "/js/clevertap.min.js";
         var s = document.getElementsByTagName("script")[0];
@@ -56,717 +57,526 @@
       })();
     </script>
 
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-app.js";
-      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-analytics.js";
-      import {} from "https://www.gstatic.com/firebasejs/9.6.5/firebase-messaging.js";
-      const firebaseConfig = {
-        apiKey: "AIzaSyArhCWNBdEiXR_r9iVdPZ9kegtO1NQMecs",
-        authDomain: "integrationsdk-test.firebaseapp.com",
-        projectId: "integrationsdk-test",
-        storageBucket: "integrationsdk-test.appspot.com",
-        messagingSenderId: "487275975172",
-        appId: "1:487275975172:web:f5f011d0bf81884daf9b51",
-        measurementId: "G-Q8KZC85TXF",
-      };
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
-      console.log(app.options);
-    </script>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="manifest" href="/manifest.json" />
-
-    <script>
-      function closePopUp() {
-        var overlay = window.parent.document.getElementById("intentOpacityDiv");
-        var wrapper = window.parent.document.getElementById("intentPreview");
-        overlay.remove();
-        wrapper.remove();
-      }
-    </script>
-
-    <!-- Segment -->
-    <!-- <script>
-      !(function () {
-        var analytics = (window.analytics = window.analytics || []);
-        if (!analytics.initialize)
-          if (analytics.invoked)
-            window.console &&
-              console.error &&
-              console.error("Segment snippet included twice.");
-          else {
-            analytics.invoked = !0;
-            analytics.methods = [
-              "trackSubmit",
-              "trackClick",
-              "trackLink",
-              "trackForm",
-              "pageview",
-              "identify",
-              "reset",
-              "group",
-              "track",
-              "ready",
-              "alias",
-              "debug",
-              "page",
-              "once",
-              "off",
-              "on",
-              "addSourceMiddleware",
-              "addIntegrationMiddleware",
-              "setAnonymousId",
-              "addDestinationMiddleware",
-            ];
-            analytics.factory = function (e) {
-              return function () {
-                var t = Array.prototype.slice.call(arguments);
-                t.unshift(e);
-                analytics.push(t);
-                return analytics;
-              };
-            };
-            for (var e = 0; e < analytics.methods.length; e++) {
-              var key = analytics.methods[e];
-              analytics[key] = analytics.factory(key);
-            }
-            analytics.load = function (key, e) {
-              var t = document.createElement("script");
-              t.type = "text/javascript";
-              t.async = !0;
-              t.src =
-                "https://cdn.segment.com/analytics.js/v1/" +
-                key +
-                "/analytics.min.js";
-              var n = document.getElementsByTagName("script")[0];
-              n.parentNode.insertBefore(t, n);
-              analytics._loadOptions = e;
-            };
-            analytics._writeKey = "Yhppg7GRbCW2jQ27Pu4EzvIxDTMqH2J0";
-            analytics.SNIPPET_VERSION = "4.15.2";
-            analytics.load("Yhppg7GRbCW2jQ27Pu4EzvIxDTMqH2J0");
-            analytics.page();
-          }
-      })();
-
-      analytics.identify("segmwebuser1", {
-        name: "Segment MWeb User 1",
-        email: "segmwebuser1@test.com",
-      });
-
-      analytics.track("Segment Web Event", {
-        plan: "Enterprise",
-      });
-    </script> -->
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
-    <!-- <link rel="stylesheet" href="styles1.css" /> -->
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #0a0a0f;
+        --surface: #111118;
+        --border: #1e1e2e;
+        --accent: #6c63ff;
+        --accent-2: #ff6584;
+        --text: #e8e8f0;
+        --muted: #666680;
+        --input-bg: #16161f;
+        --success: #43e97b;
+        --error: #ff6b6b;
+        --radius: 12px;
+        --font-head: "Syne", sans-serif;
+        --font-body: "DM Sans", sans-serif;
+      }
+      html,
+      body {
+        height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-weight: 300;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background:
+          radial-gradient(
+            ellipse 80% 60% at 20% 10%,
+            rgba(108, 99, 255, 0.12) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 60% 50% at 80% 90%,
+            rgba(255, 101, 132, 0.08) 0%,
+            transparent 60%
+          );
+      }
+      .page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        position: relative;
+        z-index: 1;
+      }
+      .card {
+        width: 100%;
+        max-width: 420px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 40px 36px 36px;
+        position: relative;
+        overflow: hidden;
+        animation: fadeUp 0.5s ease both;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 28px;
+      }
+      .logo-mark {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-head);
+        font-weight: 800;
+        font-size: 16px;
+        color: #fff;
+        flex-shrink: 0;
+      }
+      .logo-text {
+        font-family: var(--font-head);
+        font-weight: 700;
+        font-size: 17px;
+        letter-spacing: -0.3px;
+      }
+      .logo-sub {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 400;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+      .tabs {
+        display: flex;
+        background: var(--input-bg);
+        border-radius: 10px;
+        padding: 4px;
+        margin-bottom: 28px;
+        gap: 4px;
+      }
+      .tab {
+        flex: 1;
+        padding: 9px;
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        font-family: var(--font-body);
+        font-size: 13.5px;
+        font-weight: 500;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .tab.active {
+        background: var(--surface);
+        color: var(--text);
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+      }
+      .form {
+        display: none;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .form.visible {
+        display: flex;
+        animation: fadeIn 0.25s ease both;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      label {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--muted);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+      input {
+        background: var(--input-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 12px 14px;
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size: 14px;
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      input::placeholder {
+        color: var(--muted);
+        opacity: 0.6;
+      }
+      input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.12);
+      }
+      .phone-row {
+        display: flex;
+        gap: 8px;
+      }
+      .country-code {
+        width: 72px;
+        flex-shrink: 0;
+        text-align: center;
+      }
+      .btn {
+        padding: 13px;
+        border: none;
+        border-radius: var(--radius);
+        font-family: var(--font-head);
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 4px;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, var(--accent), #8b84ff);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(108, 99, 255, 0.35);
+      }
+      .btn-primary:active {
+        transform: translateY(0);
+      }
+      #toast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%) translateY(80px);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--success);
+        color: var(--text);
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-size: 13.5px;
+        font-weight: 500;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        transition:
+          transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+          opacity 0.3s;
+        opacity: 0;
+        z-index: 1000;
+      }
+      #toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+      .debug {
+        margin-top: 24px;
+        padding: 14px;
+        background: var(--input-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        font-size: 11.5px;
+        font-family: "Courier New", monospace;
+        color: var(--muted);
+        line-height: 1.9;
+      }
+      .debug strong {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .debug .lbl {
+        color: #666;
+      }
+    </style>
   </head>
   <body>
-    <script>
-      clevertap.event.push("KFCNativeDisplay");
-      clevertap.event.push("KFCOfferNativeDisplay");
-    </script>
-
-    <!-- Google Tag Manager (noscript) -->
-    <!-- <noscript>
-      <iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-MQ89K3M"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      >
-      </iframe>
-    </noscript> -->
-    <!-- End Google Tag Manager (noscript) -->
-
-    <h1>Web SDK Integration Test!</h1>
-
-    <script>
-      function requestLocationForCleverTap() {
-        if (!navigator.geolocation) {
-          console.warn("Geolocation is not supported by this browser.");
-          return;
-        }
-        navigator.permissions
-          .query({ name: "geolocation" })
-          .then(function (result) {
-            // if permission is granted
-            if (result.state === "granted") {
-              clevertap.getLocation();
-            }
-            // else if ask for permission
-            else if (result.state === "prompt") {
-              clevertap.getLocation();
-            }
-            // permission is not granted
-            else {
-              console.warn("Geolocation permission denied.");
-            }
-          });
-      }
-      requestLocationForCleverTap();
-    </script>
-
-    <!-- Web Native Display  -->
-    <div id="slider">
-      <div class="slides">
-        <img
-          id="item1"
-          src="https://i.pinimg.com/originals/2b/de/de/2bdede0647e3cdf75b44ea33723201d9.jpg"
-          width="100%"
-        />
-      </div>
-
-      <div class="slides">
-        <img
-          id="item2"
-          src="https://images6.alphacoders.com/462/thumb-1920-462371.jpg"
-          width="100%"
-        />
-      </div>
-
-      <div class="slides">
-        <img
-          id="item3"
-          src="https://wallpaperaccess.com/full/1154341.jpg"
-          width="100%"
-        />
-      </div>
-
-      <div id="dot">
-        <span class="dot"></span>
-        <span class="dot"></span><span class="dot"></span>
-      </div>
-    </div>
-
-    <script>
-      document.addEventListener("CT_web_native_display", function (event) {
-        // console.log("Inside ND listener: ", event);
-        const data = event.detail;
-        renderCartDropOffPersonalisationCampaign(data);
-      });
-
-      function renderCartDropOffPersonalisationCampaign(data) {
-        const mytopic = data.kv.topic;
-        const url1 = data.kv.Item1_Img;
-        const url2 = data.kv.item2_Img;
-        const url3 = data.kv.item3_Img;
-        // console.log("Inside renderCartDropOffPersonalisationCampaign: ", event);
-        // console.log("url1: ", data.kv);
-        // console.log("url2: ", url2);
-        // console.log("url3: ", url3);
-        const cart_items_string = data.kv.cart_items_string;
-        var str_array = cart_items_string.split(",");
-        // console.log("cart_items_string:", cart_items_string);
-        for (var i = 0; i < str_array.length; i++) {
-          console.log(
-            "cart_items_string_splited_" + (i + 1) + ":",
-            str_array[i]
-          );
-        }
-
-        const carouselinner = document.getElementById("carousel-inner");
-        document.getElementById("item1").src = url1;
-        document.getElementById("item2").src = url2;
-        document.getElementById("item3").src = url3;
-        clevertap.renderNotificationViewed(data);
-        carouselinner.addEventListener("click", () => {
-          clevertap.renderNotificationClicked(data);
-        });
-      }
-    </script>
-
-    <!-- Retreiving user property from the profile -->
-    <script>
-      let user_prop = clevertap.profile.getAttribute("addToCartItems");
-      let user_prop2 = clevertap.profile.getAttribute("get-attr_test");
-      console.log("User Property: " + user_prop);
-      console.log("get-attr_test_User Property2: " + user_prop2);
-    </script>
-
-    <!-- onUserLogin -->
-    <script src="scripts.js"></script>
-
-    <!-- RFY tray starts -->
-    <br />
-    <br />
-    <section
-      class="top-deals"
-      style="
-        margin: 0;
-        padding: 40px 60px;
-        background: #f6f7f9;
-        box-sizing: border-box;
-        font-family: 'Inter', sans-serif;
-      "
-    >
-      <div class="header">
-        <div class="title">
-          Recommended for you <span class="spark">✨</span>
-        </div>
-        <a href="#" class="view-all">View All →</a>
-      </div>
-
-      <div class="cards-container" id="cardsContainer"></div>
-    </section>
-    <script>
-      document.addEventListener("CT_web_native_display", function (event) {
-        console.log("Inside ND listener: ", event);
-        const data = event.detail;
-        if (data.kv.topic == "Offers_Tray_Web_ND") {
-          console.log("Offers Tray value: ", data.kv);
-          renderOffersTray(data);
-        } else {
-          kfcRFY(data);
-        }
-      });
-
-      function kfcRFY(data) {
-        const rfyItems = data.kv;
-        console.log("rfyItemsinside", rfyItems);
-        const container = document.getElementById("cardsContainer");
-
-        Object.keys(rfyItems)
-          .filter((key) => key.startsWith("recommendation"))
-          .forEach((key) => {
-            const item = JSON.parse(rfyItems[key]);
-
-            const card = document.createElement("div");
-            card.className = "card";
-
-            card.innerHTML = `
-      <div class="product-image">
-        <img src="${item.ImageURL}" alt="${item.title}">
-      </div>
-
-      <div class="card-body">
-  <div class="card-content">
-    <div class="title-row">
-      <div class="title-text">${item.title}</div>
-      <div class="heart">♡</div>
-    </div>
-
-    <div class="title-underline"></div>
-
-    <div class="desc-text">${item.desc}</div>
-  </div>
-
-  <div class="price">${item.price}</div>
-
-  <button class="add-to-cart">+ ADD TO CART</button>
-</div>
-    `;
-            container.appendChild(card);
-          });
-      }
-    </script>
-    <br />
-    <br />
-    <!-- RFY tray ends -->
-
-    <!-- offers tray starts -->
-    <section
-      class="top-deals"
-      style="
-        margin: 0;
-        padding: 40px 60px;
-        background: #f6f7f9;
-        box-sizing: border-box;
-        font-family: 'Inter', sans-serif;
-      "
-    >
-      <div class="header">
-        <div class="title">
-          Special Offers For You <span class="spark">🔥</span>
-        </div>
-        <a href="#" class="view-all">View All →</a>
-      </div>
-
-      <div class="cards-container" id="offersCardsContainer"></div>
-    </section>
-
-    <script>
-      function renderOffersTray(data) {
-        const offersItems = data.kv;
-        const container = document.getElementById("offersCardsContainer");
-
-        Object.keys(offersItems)
-          .filter((key) => key.startsWith("recommendation"))
-          .forEach((key) => {
-            const item = JSON.parse(offersItems[key]);
-
-            const card = document.createElement("div");
-            card.className = "card";
-
-            card.innerHTML = `
-          <div class="product-image">
-            <img src="${item.ImageURL}" alt="${item.title}">
+    <div class="page">
+      <div class="card">
+        <div class="logo">
+          <div class="logo-mark">CT</div>
+          <div>
+            <div class="logo-text">Integration SDK</div>
+            <div class="logo-sub">CleverTap Web Demo</div>
           </div>
+        </div>
 
-          <div class="card-body">
-            <div class="card-content">
-              <div class="title-row">
-                <div class="title-text">${item.title}</div>
-                <div class="heart">♡</div>
-              </div>
+        <div class="tabs">
+          <button
+            class="tab active"
+            id="tab-login"
+            onclick="switchTab('login')"
+          >
+            Log In
+          </button>
+          <button class="tab" id="tab-signup" onclick="switchTab('signup')">
+            Sign Up
+          </button>
+        </div>
 
-              <div class="title-underline"></div>
-
-              <div class="desc-text">${item.desc}</div>
+        <form class="form visible" id="form-login" onsubmit="doLogin(event)">
+          <div class="field">
+            <label>Name</label>
+            <input
+              id="login-name"
+              type="text"
+              placeholder="Your full name"
+              required
+            />
+          </div>
+          <div class="field">
+            <label>Identity</label>
+            <input
+              id="login-identity"
+              type="text"
+              placeholder="e.g. abc123-sp"
+              required
+            />
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input
+              id="login-email"
+              type="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+          <div class="field">
+            <label>Phone</label>
+            <div class="phone-row">
+              <input
+                class="country-code"
+                id="login-country"
+                type="text"
+                value="+91"
+              />
+              <input
+                id="login-phone"
+                type="tel"
+                placeholder="9876543210"
+                required
+                style="flex: 1"
+              />
             </div>
-
-            <div class="price">${item.price}</div>
-
-            <button class="add-to-cart">View Offer</button>
           </div>
-        `;
-            container.appendChild(card);
-          });
-      }
-    </script>
+          <button class="btn btn-primary" type="submit">Log In</button>
+        </form>
 
-    <!-- offers tray ends -->
+        <form class="form" id="form-signup" onsubmit="doSignup(event)">
+          <div class="field">
+            <label>Name</label>
+            <input
+              id="signup-name"
+              type="text"
+              placeholder="Your full name"
+              required
+            />
+          </div>
+          <div class="field">
+            <label>Identity</label>
+            <input
+              id="signup-identity"
+              type="text"
+              placeholder="e.g. newuser10-sp"
+              required
+            />
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input
+              id="signup-email"
+              type="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+          <div class="field">
+            <label>Phone</label>
+            <div class="phone-row">
+              <input
+                class="country-code"
+                id="signup-country"
+                type="text"
+                value="+91"
+              />
+              <input
+                id="signup-phone"
+                type="tel"
+                placeholder="9876543210"
+                required
+                style="flex: 1"
+              />
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit">Create Account</button>
+        </form>
 
-    <input id="name" type="text" name="username" placeholder="Name" />
-    <br /><br />
-    <input id="emailid" type="text" name="username" placeholder="Email ID" />
-    <br /><br />
-    <input id="identity" type="text" name="username" placeholder="Identity" />
-    <br /><br />
-    <input id="mobno" type="text" name="username" placeholder="Mobile Number" />
-    <br /><br />
-    <div class="snackbar" id="sb6">Logged In!</div>
-    <button id="login" onclick="loginUser()">Login</button>
-    <br /><br />
+        <div class="debug">
+          <span class="lbl">CT init ID (our random_uuid-sp):</span>
+          <strong id="dbg-initid">—</strong><br />
+          <span class="lbl">ct_prefs.clevertap_id:</span>
+          <strong id="dbg-ctid">—</strong><br />
+          <span class="lbl">has_real_identity:</span>
+          <strong id="dbg-identity">—</strong><br />
+          <span class="lbl">isFirstTimeSignup:</span>
+          <strong id="dbg-firstsignup">—</strong><br />
+          <span class="lbl">WZRK_G (CT's internal):</span>
+          <strong id="dbg-wzrk">—</strong><br />
+          <span class="lbl">Dashboard key:</span>
+          <strong id="dbg-dashboard">—</strong>
+        </div>
+      </div>
+    </div>
+    <div id="toast"></div>
 
-    <!-- event -->
-    <input
-      id="eventName"
-      type="text"
-      name="username"
-      placeholder="Event Name"
-    />
-    <br /><br />
-    <button id="event" onclick="pushEvent()">Push Event</button>
-    <div class="snackbar" id="sb1">Push Event Clicked!</div>
+    <script src="clevertap-id-manager.js"></script>
+    <script src="clevertap-manager.js"></script>
     <script>
-      let pushEvent = () => {
-        clevertap.event.push(document.getElementById("eventName").value);
+      CleverTapManager.init();
+      updateDebugPanel();
 
-        console.log(
-          "GetAllInboxMessages: " +
-            JSON.stringify(clevertap.getAllInboxMessages())
-        );
-        console.log(
-          "GetAllInboxMessagesCount: " + clevertap.getInboxMessageCount()
-        );
-        //snackbar
-        var x = document.getElementById("sb1");
-        x.classList.add("show");
-        setTimeout(function () {
-          x.className = x.className.replace("show", "");
-        }, 3000);
-      };
-    </script>
-
-    <!-- key/value events -->
-    <br /><br />
-    <button id="events" onclick="events()">Key/Value Push Event</button>
-    <div class="snackbar" id="sb2">Key/Value Push Event Clicked!</div>
-    <script>
-      let events = () => {
-        /*clevertap.event.push("Product Viewed", {
-          "Product name": "Casio Chronograph Watch",
-          Category: "Mens Accessories",
-          Price: 59.99,
-        });*/
-        clevertap.event.push("Added to Cart", {
-          product_name:
-            "Gucci Guccissima Canvas Horsebit Peep Toe Platform Pumps Size 36.5",
-          product_url:
-            "us-en/women/bottega-veneta-chocolate-brown-leather-boston-bag-p718",
-          product_id: 718,
-          product_price: 154.6,
-          product_brand: "Gucci",
-          product_category: "Pumps",
-          product_varaint: "Beige",
-          product_qty: 1,
-          product_image:
-            "https://cdn.theluxurycloset.com/uploads/products/full/gucci-guccissima-canvas-platform-pumps-lc-119596-395883-25449.jpg",
-          product_original_price: 10.45555,
-          product_web_link:
-            "http://198.211.119.79/lykan/web/women/gucci-guccissima-canvas-horsebit-peep-toe-platform-pumps-size-365-p718",
-          show_discount: true,
-        });
-        //snackbar
-        var x = document.getElementById("sb2");
-        x.classList.add("show");
-        setTimeout(function () {
-          x.className = x.className.replace("show1", "");
-        }, 3000);
-      };
-    </script>
-
-    <!-- profile push  -->
-    <br /><br />
-    <button id="profilepush" onclick="profilePush()">Profile Push</button>
-    <div class="snackbar" id="sb3">Profile Push Clicked!</div>
-    <script>
-      let profilePush = () => {
-        clevertap.profile.push({
-          Site: {
-            Name: document.getElementById("name").value,
-            Identity: document.getElementById("identity").value,
-            Email: document.getElementById("emailid").value,
-            Phone: document.getElementById("mobno").value,
-            "Customer Type": "Gold",
-            "MSG-email": true,
-            "MSG-push": true,
-            "MSG-sms": true,
-            "MSG-whatsapp": true,
-          },
-        });
-        clevertap.profile.setMultiValuesForKey(
-          "product_id",
-          [16470009, 12570060, 12570008004]
-        );
-
-        //   //snackbar
-        //   var x = document.getElementById("sb3");
-        //   x.classList.add("show");
-        //   setTimeout(function () {
-        //     x.className = x.className.replace("show", "");
-        //   }, 3000);
-      };
-
-      let setMultiValuesForKey = (key, value) => {
-        clevertap.profile.push({
-          Site: {
-            key: value,
-          },
-        });
-        //snackbar
-        var x = document.getElementById("sb3");
-        x.classList.add("show");
-        setTimeout(function () {
-          x.className = x.className.replace("show", "");
-        }, 3000);
-      };
-    </script>
-
-    <!-- send notification event -->
-    <br /><br />
-    <button id="event" onclick="webNotiEvent()">Send Notification</button>
-    <div class="snackbar" id="sb4">Send Notification Button Clicked!</div>
-    <script>
-      let webNotiEvent = () => {
-        clevertap.event.push("Karthik's web noti event");
-        //snackbar
-        var x = document.getElementById("sb4");
-        x.classList.add("show");
-        setTimeout(function () {
-          x.className = x.className.replace("show", "");
-        }, 3000);
-      };
-    </script>
-
-    <!-- send popup -->
-    <br /><br />
-    <button id="event" onclick="webPopupEvent()">Send Popup</button>
-    <div class="snackbar" id="sb5">Send Pop up Button Clicked!</div>
-    <script>
-      let webPopupEvent = () => {
-        clevertap.event.push("Karthik's web popup event");
-        //snackbar
-        var x = document.getElementById("sb5");
-        x.classList.add("show");
-        setTimeout(function () {
-          x.className = x.className.replace("show", "");
-        }, 3000);
-      };
-    </script>
-
-    <!-- Notification Push javascript file -->
-    <!--     <script data-main="config/config" src="/notificationPush.js"></script> -->
-    <script src="notificationPush.js"></script>
-
-    <!-- Hard Popup Button -->
-    <!-- <br /><br />
-    <button id="testBtn" onclick="testButton()">Hard Popup Button</button>
-    <div class="snackbar" id="sb7">Hard Popup Button Clicked!</div>
-    <script>
-      let testButton = () => {
-        Notification.requestPermission().then(function (getperm) {
-          console.log("Hard Popup Permission granted", getperm);
-          window.location.reload();
-        });
-      };
-      //snackbar
-      var x = document.getElementById("sb7");
-      x.classList.add("show");
-      setTimeout(function () {
-        x.className = x.className.replace("show1", "");
-      }, 3000);
-    </script> -->
-
-    <!-- Cart -->
-    <br /><br />
-    <input
-      id="cartItemCount"
-      type="text"
-      name="username"
-      placeholder="Cart Item Count"
-    />
-    <br /><br />
-    <input
-      id="productName"
-      type="text"
-      name="username"
-      placeholder="Product Name"
-    />
-    <br /><br />
-    <input
-      id="productPrice"
-      type="text"
-      name="username"
-      placeholder="Product Price"
-    />
-    <br /><br />
-    <input
-      id="productID"
-      type="text"
-      name="username"
-      placeholder="Product ID"
-    />
-    <br /><br />
-    <input
-      id="productQuantity"
-      type="text"
-      name="username"
-      placeholder="Product Quantity"
-    />
-    <br /><br />
-    <input
-      id="productImage"
-      type="text"
-      name="username"
-      placeholder="Product Image"
-    />
-    <br /><br />
-    <button id="addToCart" onclick="addToCart()">Add to Cart</button>
-    <br /><br />
-    <div class="snackbar" id="sb8">Added to Cart!</div>
-    <script language="JavaScript">
-      const user_property_arr = [1, 2, 3];
-      let addToCart = () => {
-        var pd_id = document.getElementById("productID").value;
-        // user_property_arr.push(pd_id);
-        // console.log("Arrray: " + user_property_arr);
-        // let rev_arr = user_property_arr.reverse();
-        // console.log("RevArray: " + rev_arr);
-        let unshift_arr = user_property_arr.unshift(pd_id);
-        console.log("UNshiftArr: " + user_property_arr.unshift(pd_id));
-        //snackbar
-        var x = document.getElementById("sb8");
-        x.classList.add("show");
-        setTimeout(function () {
-          x.className = x.className.replace("show", "");
-        }, 3000);
-      };
-    </script>
-
-    <!-- redirection -->
-    <br /><br />
-    <a href="./test.html">TEST 1</a>
-    <br /><br />
-    <a href="./test2.html">TEST 2</a>
-
-    <br /><br />
-    <button id="event" onclick="testArray()">Test Array</button>
-    <div class="snackbar" id="sb9">Send Notification Button Clicked!</div>
-    <script>
-      let testArray = () => {
-        clevertap.addMultiValuesForKey("KeyArray", ["ValueArray1"]);
-        //snackbar
-        var x = document.getElementById("sb9");
-        x.classList.add("show");
-        setTimeout(function () {
-          x.className = x.className.replace("show", "");
-        }, 3000);
-      };
-    </script>
-
-    <br /><br />
-    <button id="event" onclick="unsubPush()">Unsubscribe Push</button> <br />
-    <script>
-      let unsubPush = () => {
-        clevertap.profile.push({
-          Site: {
-            "MSG-push": false,
-          },
-        });
-      };
-    </script>
-
-    <!-- script for web native display  -->
-    <script>
-      var index = 0;
-      var slides = document.querySelectorAll(".slides");
-      var dot = document.querySelectorAll(".dot");
-
-      function changeSlide() {
-        if (index < 0) {
-          index = slides.length - 1;
-        }
-
-        if (index > slides.length - 1) {
-          index = 0;
-        }
-
-        for (let i = 0; i < slides.length; i++) {
-          slides[i].style.display = "none";
-          dot[i].classList.remove("active");
-        }
-
-        slides[index].style.display = "block";
-        dot[index].classList.add("active");
-
-        index++;
-
-        setTimeout(changeSlide, 4000);
+      function switchTab(tab) {
+        document
+          .getElementById("form-login")
+          .classList.toggle("visible", tab === "login");
+        document
+          .getElementById("form-signup")
+          .classList.toggle("visible", tab === "signup");
+        document
+          .getElementById("tab-login")
+          .classList.toggle("active", tab === "login");
+        document
+          .getElementById("tab-signup")
+          .classList.toggle("active", tab === "signup");
       }
 
-      changeSlide();
+      function doLogin(e) {
+        e.preventDefault();
+        const identity = document.getElementById("login-identity").value.trim();
+        const profile = {
+          Name: document.getElementById("login-name").value.trim(),
+          Identity: identity,
+          Email: document.getElementById("login-email").value.trim(),
+          Phone:
+            document.getElementById("login-country").value +
+            document.getElementById("login-phone").value.trim(),
+          "MSG-email": true,
+          "MSG-push": true,
+          "MSG-sms": true,
+          "MSG-whatsapp": true,
+        };
+        CleverTapManager.onUserLogin(profile, identity);
+        showToast("Logged in!");
+        updateDebugPanel();
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 800);
+      }
+
+      function doSignup(e) {
+        e.preventDefault();
+        const identity = document
+          .getElementById("signup-identity")
+          .value.trim();
+        const profile = {
+          Name: document.getElementById("signup-name").value.trim(),
+          Identity: identity,
+          Email: document.getElementById("signup-email").value.trim(),
+          Phone:
+            document.getElementById("signup-country").value +
+            document.getElementById("signup-phone").value.trim(),
+          "MSG-email": true,
+          "MSG-push": true,
+          "MSG-sms": true,
+          "MSG-whatsapp": true,
+        };
+
+        if (CleverTapIdManager.isFirstTimeSignup()) {
+          CleverTapManager.onFirstSignup(profile, identity);
+        } else {
+          CleverTapManager.onUserLogin(profile, identity);
+        }
+        showToast("Account created!");
+        updateDebugPanel();
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 800);
+      }
+
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2800);
+      }
+
+      function updateDebugPanel() {
+        const initId = window.__CT_INIT_ID__ || "—";
+        const ctId = localStorage.getItem("ct_prefs.clevertap_id") || "—";
+        const hasId =
+          localStorage.getItem("ct_prefs.has_real_identity") || "false";
+        const isFirst = CleverTapIdManager.isFirstTimeSignup();
+        const wzrk =
+          localStorage.getItem("WZRK_G") || "(not set yet — CT SDK async)";
+        document.getElementById("dbg-initid").textContent = initId;
+        document.getElementById("dbg-ctid").textContent = ctId;
+        document.getElementById("dbg-identity").textContent = hasId;
+        document.getElementById("dbg-firstsignup").textContent =
+          String(isFirst);
+        document.getElementById("dbg-wzrk").textContent = wzrk;
+        document.getElementById("dbg-dashboard").textContent =
+          hasId === "true" ? "_w_" + ctId : "_w_" + initId + " (anonymous)";
+      }
     </script>
-
-    <!-- Web Inbox -->
-    <!-- <span
-      id="inbox"
-      style="
-        position: absolute;
-        top: 30px;
-        right: 40px;
-        width: 100px;
-        text-align: right;
-      "
-    >
-      <img
-        src="https://cdn-icons-png.flaticon.com/512/4407/4407079.png"
-        alt="Web Inbox"
-        style="width: 40px; height: 40px; vertical-align: middle"
-      />
-    </span> -->
-
-    <!-- Web Inbox -->
-    <!-- <div id="inbox">
-      <p>This is web inbox</p>
-    </div> -->
   </body>
 </html>
