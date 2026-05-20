@@ -1,10 +1,10 @@
 console.log("NS Called");
 clevertap.notifications.push({
-  // titleText: "Would you like to receive Notification?",
-  // bodyText: "Will send you only trusted notifcations and updates",
-  // okButtonText: "OK",
-  // rejectButtonText: "Cancel",
-  // okButtonColor: "#f28046",
+  titleText: "Would you like to receive Notification?",
+  bodyText: "Will send you only trusted notifcations and updates",
+  okButtonText: "OK",
+  rejectButtonText: "Cancel",
+  okButtonColor: "#f28046",
   // serviceWorkerPath: "/clevertap-web-integration/service-worker.js",
   okCallback: function () {
     console.log("For Soft OK Popup");
@@ -20,6 +20,6 @@ clevertap.notifications.push({
   },
   subscriptionCallback: function () {
     console.log("For Chrome Hard Popup");
-    clevertap.event.push("Chrome_Yes_Click");
+    // clevertap.event.push("Chrome_Yes_Click");
   },
 });
