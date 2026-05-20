@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <!-- Google Tag Manager -->
@@ -47,10 +47,13 @@
         var wzrk = document.createElement("script");
         wzrk.type = "text/javascript";
         wzrk.async = true;
+        // wzrk.src =
+        //   ("https:" == document.location.protocol
+        //     ? "https://d2r1yp2w7bby2u.cloudfront.net"
+        //     : "http://static.clevertap.com") + "/js/clevertap.min.js";
         wzrk.src =
-          ("https:" == document.location.protocol
-            ? "https://d2r1yp2w7bby2u.cloudfront.net"
-            : "http://static.clevertap.com") + "/js/clevertap.min.js";
+          "https://cdn.jsdelivr.net/npm/clevertap-web-sdk@2.0.0/clevertap.min.js";
+
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(wzrk, s);
       })();
@@ -268,7 +271,7 @@
         for (var i = 0; i < str_array.length; i++) {
           console.log(
             "cart_items_string_splited_" + (i + 1) + ":",
-            str_array[i]
+            str_array[i],
           );
         }
 
@@ -304,7 +307,7 @@
         padding: 40px 60px;
         background: #f6f7f9;
         box-sizing: border-box;
-        font-family: 'Inter', sans-serif;
+        font-family: &quot;Inter&quot;, sans-serif;
       "
     >
       <div class="header">
@@ -379,7 +382,7 @@
         padding: 40px 60px;
         background: #f6f7f9;
         box-sizing: border-box;
-        font-family: 'Inter', sans-serif;
+        font-family: &quot;Inter&quot;, sans-serif;
       "
     >
       <div class="header">
@@ -462,10 +465,10 @@
 
         console.log(
           "GetAllInboxMessages: " +
-            JSON.stringify(clevertap.getAllInboxMessages())
+            JSON.stringify(clevertap.getAllInboxMessages()),
         );
         console.log(
-          "GetAllInboxMessagesCount: " + clevertap.getInboxMessageCount()
+          "GetAllInboxMessagesCount: " + clevertap.getInboxMessageCount(),
         );
         //snackbar
         var x = document.getElementById("sb1");
@@ -535,7 +538,7 @@
         });
         clevertap.profile.setMultiValuesForKey(
           "product_id",
-          [16470009, 12570060, 12570008004]
+          [16470009, 12570060, 12570008004],
         );
 
         //   //snackbar
